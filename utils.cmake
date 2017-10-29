@@ -38,10 +38,23 @@ find_program(
   DOC "Path to clang-tidy executable"
 )
 if(NOT CLANG_TIDY_EXE)
-  message(WARNING "clang-tidy not found. Checks are disabled")
+  message(WARNING "clang-tidy not found. Checks are disabled.")
 else()
   message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
   set(DO_CLANG_TIDY "${CLANG_TIDY_EXE}" "-system-headers=0")
+endif()
+
+# Find iwyu (for use in target_enable_style_warnings)
+find_program(
+  IWYU_EXE NAMES
+  include-what-you-use
+  iwyu
+)
+if(NOT IWYU_EXE)
+    message(WARNING "include-what-you-use not found. Checks are disabled.")
+else()
+    message(STATUS "iwyu found: ${IWYU_EXE}")
+    set(DO_IWYU "${IWYU_EXE}")
 endif()
 
 #################################################
@@ -57,6 +70,7 @@ function(target_enable_style_warnings TARGET)
     set_target_properties(
       ${TARGET} PROPERTIES
       CXX_CLANG_TIDY "${DO_CLANG_TIDY}"
+      CXX_INCLUDE_WHAT_YOU_USE "${DO_IWYU}"
     )
 endfunction(target_enable_style_warnings)
 
