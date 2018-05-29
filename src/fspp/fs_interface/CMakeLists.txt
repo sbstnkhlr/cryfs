@@ -16,3 +16,5 @@ target_link_libraries(${PROJECT_NAME} PUBLIC cpp-utils)
 target_add_boost(${PROJECT_NAME} filesystem system)
 target_enable_style_warnings(${PROJECT_NAME})
 target_activate_cpp14(${PROJECT_NAME})
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC "C:\\Program Files\\Dokan\\DokanLibrary-1.1.0\\include")
+

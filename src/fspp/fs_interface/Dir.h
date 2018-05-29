@@ -5,6 +5,7 @@
 #include <cpp-utils/pointer/unique_ref.h>
 #include <string>
 #include <boost/filesystem/path.hpp>
+#include <fuse.h>
 
 namespace fspp {
 class Device;

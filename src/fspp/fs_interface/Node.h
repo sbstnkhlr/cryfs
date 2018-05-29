@@ -5,6 +5,7 @@
 #include <boost/filesystem.hpp>
 
 #include <sys/stat.h>
+#include <fuse.h>
 
 namespace fspp {
 
