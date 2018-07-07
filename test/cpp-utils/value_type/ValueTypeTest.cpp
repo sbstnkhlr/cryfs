@@ -31,7 +31,7 @@ namespace {
 /**
  * Tests for IdValueType
  */
-
+/*
 template<class Type>
 struct IdValueTypeTest_constexpr_test {
     static constexpr Type test_constructor = Type(5);
@@ -137,12 +137,12 @@ TYPED_TEST(IdValueTypeTest, UnorderedSet) {
 
 
 
-
+*/
 
 /**
  * Tests for OrderedIdValueType
  */
-
+/*
 template<class Type>
 struct OrderedIdValueTypeTest_constexpr_test {
     static_assert(Type(3) < Type(4), "");
@@ -241,12 +241,12 @@ TYPED_TEST(OrderedIdValueTypeTest, Set) {
 
 
 
-
+*/
 
 /**
  * Tests for QuantityValueType
  */
-
+/*
 template<class Type>
 struct QuantityValueTypeTest_constexpr_test {
     static_assert(++Type(3) == Type(4), "");
@@ -377,5 +377,5 @@ TYPED_TEST(QuantityValueTypeTest, ModScalar) {
 TYPED_TEST(QuantityValueTypeTest, ModValue) {
     EXPECT_EQ(1, TypeParam(7) % TypeParam(3));
 }
-
+*/
 }
