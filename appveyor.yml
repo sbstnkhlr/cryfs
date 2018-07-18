@@ -3,7 +3,7 @@ version: '{branch}-{build}'
 
 platform:
   - x64
-#  TODO: For x86, we also need to change the cmake generator below
+#  TODO: For x86, we also need to change the cmake generator below and possibly the dokan installation
 #  - x86
 #  - Any CPU
 
@@ -13,6 +13,7 @@ configuration:
 
 install:
   - choco install -y curl
+  - choco install -y dokany --installargs ADDLOCAL=DokanDevFeature,DokanLibBFeature,DokanPDBFeature
   - cmake --version
 
 build_script:
