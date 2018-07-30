@@ -30,7 +30,7 @@ void CryOpenFile::flush() {
   _parent->flush();
 }
 
-void CryOpenFile::stat(struct ::stat *result) const {
+void CryOpenFile::stat(struct FUSE_STAT *result) const {
   _device->callFsActionCallbacks();
   result->st_size = _fileBlob->size();
   _parent->statChildWithSizeAlreadySet(_fileBlob->blockId(), result);

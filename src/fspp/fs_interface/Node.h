@@ -13,7 +13,7 @@ class Node {
 public:
   virtual ~Node() {}
 
-  virtual void stat(struct ::stat *result) const = 0;
+  virtual void stat(struct FUSE_STAT *result) const = 0;
   virtual void chmod(mode_t mode) = 0;
   virtual void chown(uid_t uid, gid_t gid) = 0;
   virtual void access(int mask) const = 0;

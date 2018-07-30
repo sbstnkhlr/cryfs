@@ -26,7 +26,7 @@ public:
     void Test_Stat() {
         auto node = this->CreateNode("/mynode");
         auto operation = [&node] () {
-            struct stat st{};
+            struct FUSE_STAT st{};
             node->stat(&st);
         };
         this->EXPECT_OPERATION_UPDATES_TIMESTAMPS_AS("/mynode", operation, {

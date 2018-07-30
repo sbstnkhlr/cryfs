@@ -24,7 +24,7 @@ public:
         return _base->size();
     }
 
-    ssize_t read(void *target, uint64_t offset, uint64_t count) const {
+    size_t read(void *target, uint64_t offset, uint64_t count) const {
         return _base->read(target, offset, count);
     }
 

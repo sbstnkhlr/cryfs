@@ -8,6 +8,7 @@
 #include <cpp-utils/pointer/unique_ref.h>
 #include <cpp-utils/pointer/unique_ref_boost_optional_gtest_workaround.h>
 #include <cpp-utils/system/stat.h>
+#include <fspp/fuse/params.h>
 
 #include "../../fs_interface/Device.h"
 #include "../../fs_interface/Node.h"
@@ -90,7 +91,7 @@ public:
 
   void setModificationTimestampLaterThanAccessTimestamp(const boost::filesystem::path& path) {
     auto node = device->Load(path).value();
-    struct stat st{};
+    struct FUSE_STAT st{};
     node->stat(&st);
     st.st_mtim.tv_nsec = st.st_mtim.tv_nsec + 1;
     node->utimens(

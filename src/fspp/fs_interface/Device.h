@@ -4,6 +4,7 @@
 
 #include <boost/filesystem.hpp>
 #include <cpp-utils/pointer/unique_ref.h>
+#include <fuse.h>
 
 namespace fspp {
 class Node;

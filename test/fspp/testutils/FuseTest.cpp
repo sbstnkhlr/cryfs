@@ -65,8 +65,8 @@ const bf::path &FuseTest::TempTestFS::mountDir() const {
   return _mountDir.path();
 }
 
-Action<void(const char*, struct ::stat*)> FuseTest::ReturnIsFileWithSize(size_t size) {
-  return Invoke([size](const char*, struct ::stat* result) {
+Action<void(const char*, struct FUSE_STAT*)> FuseTest::ReturnIsFileWithSize(size_t size) {
+  return Invoke([size](const char*, struct FUSE_STAT* result) {
     result->st_mode = S_IFREG | S_IRUSR | S_IRGRP | S_IROTH;
     result->st_nlink = 1;
     result->st_size = size;
@@ -74,16 +74,16 @@ Action<void(const char*, struct ::stat*)> FuseTest::ReturnIsFileWithSize(size_t 
 }
 
 //TODO Combine ReturnIsFile and ReturnIsFileFstat. This should be possible in gmock by either (a) using ::testing::Undefined as parameter type or (b) using action macros
-Action<void(const char*, struct ::stat*)> FuseTest::ReturnIsFile = ReturnIsFileWithSize(0);
+Action<void(const char*, struct FUSE_STAT*)> FuseTest::ReturnIsFile = ReturnIsFileWithSize(0);
 
-Action<void(int, struct ::stat*)> FuseTest::ReturnIsFileFstat =
-  Invoke([](int, struct ::stat* result) {
+Action<void(int, struct FUSE_STAT*)> FuseTest::ReturnIsFileFstat =
+  Invoke([](int, struct FUSE_STAT* result) {
     result->st_mode = S_IFREG | S_IRUSR | S_IRGRP | S_IROTH;
     result->st_nlink = 1;
   });
 
-Action<void(int, struct ::stat*)> FuseTest::ReturnIsFileFstatWithSize(size_t size) {
-  return Invoke([size](int, struct ::stat *result) {
+Action<void(int, struct FUSE_STAT*)> FuseTest::ReturnIsFileFstatWithSize(size_t size) {
+  return Invoke([size](int, struct FUSE_STAT *result) {
       result->st_mode = S_IFREG | S_IRUSR | S_IRGRP | S_IROTH;
       result->st_nlink = 1;
       result->st_size = size;
@@ -91,13 +91,13 @@ Action<void(int, struct ::stat*)> FuseTest::ReturnIsFileFstatWithSize(size_t siz
   });
 }
 
-Action<void(const char*, struct ::stat*)> FuseTest::ReturnIsDir =
-  Invoke([](const char*, struct ::stat* result) {
+Action<void(const char*, struct FUSE_STAT*)> FuseTest::ReturnIsDir =
+  Invoke([](const char*, struct FUSE_STAT* result) {
     result->st_mode = S_IFDIR | S_IRUSR | S_IRGRP | S_IROTH | S_IXUSR | S_IXGRP | S_IXOTH;
     result->st_nlink = 1;
   });
 
-Action<void(const char*, struct ::stat*)> FuseTest::ReturnDoesntExist = Throw(fspp::fuse::FuseErrnoException(ENOENT));
+Action<void(const char*, struct FUSE_STAT*)> FuseTest::ReturnDoesntExist = Throw(fspp::fuse::FuseErrnoException(ENOENT));
 
 void FuseTest::OnOpenReturnFileDescriptor(const char *filename, int descriptor) {
   EXPECT_CALL(fsimpl, openFile(StrEq(filename), _)).Times(1).WillOnce(Return(descriptor));

@@ -137,7 +137,7 @@ void FilesystemImpl::closeFile(int descriptor) {
   _open_files.close(descriptor);
 }
 
-void FilesystemImpl::lstat(const bf::path &path, struct ::stat *stbuf) {
+void FilesystemImpl::lstat(const bf::path &path, struct FUSE_STAT *stbuf) {
   PROFILE(_lstatNanosec);
   auto node = _device->Load(path);
   if(node == none) {
@@ -147,7 +147,7 @@ void FilesystemImpl::lstat(const bf::path &path, struct ::stat *stbuf) {
   }
 }
 
-void FilesystemImpl::fstat(int descriptor, struct ::stat *stbuf) {
+void FilesystemImpl::fstat(int descriptor, struct FUSE_STAT *stbuf) {
   PROFILE(_fstatNanosec);
   _open_files.get(descriptor)->stat(stbuf);
 }

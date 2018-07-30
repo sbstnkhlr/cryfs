@@ -11,7 +11,7 @@ public:
     void Test_Nlink() {
         this->CreateNode("/mynode");
         auto node = this->Load("/mynode");
-        this->IN_STAT(node.get(), [] (struct stat st) {
+        this->IN_STAT(node.get(), [] (struct FUSE_STAT st) {
             EXPECT_EQ(1u, st.st_nlink);
         });
     }
@@ -32,7 +32,7 @@ TYPED_TEST_P(FsppNodeTest_Stat_FileOnly, CreatedFileIsEmpty) {
 TYPED_TEST_P(FsppNodeTest_Stat_FileOnly, FileIsFile) {
     this->CreateFile("/myfile");
     auto node = this->Load("/myfile");
-    this->IN_STAT(node.get(), [] (struct stat st) {
+    this->IN_STAT(node.get(), [] (struct FUSE_STAT st) {
         EXPECT_TRUE(S_ISREG(st.st_mode));
     });
 }
@@ -46,7 +46,7 @@ TYPED_TEST_CASE_P(FsppNodeTest_Stat_DirOnly);
 TYPED_TEST_P(FsppNodeTest_Stat_DirOnly, DirIsDir) {
     this->CreateDir("/mydir");
     auto node = this->Load("/mydir");
-    this->IN_STAT(node.get(), [] (struct stat st) {
+    this->IN_STAT(node.get(), [] (struct FUSE_STAT st) {
         EXPECT_TRUE(S_ISDIR(st.st_mode));
     });
 }
@@ -60,7 +60,7 @@ TYPED_TEST_CASE_P(FsppNodeTest_Stat_SymlinkOnly);
 TYPED_TEST_P(FsppNodeTest_Stat_SymlinkOnly, SymlinkIsSymlink) {
     this->CreateSymlink("/mysymlink");
     auto node = this->Load("/mysymlink");
-    this->IN_STAT(node.get(), [] (struct stat st) {
+    this->IN_STAT(node.get(), [] (struct FUSE_STAT st) {
         EXPECT_TRUE(S_ISLNK(st.st_mode));
     });
 }

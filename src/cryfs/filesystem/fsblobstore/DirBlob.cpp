@@ -132,12 +132,12 @@ off_t DirBlob::lstat_size() const {
   return DIR_LSTAT_SIZE;
 }
 
-void DirBlob::statChild(const BlockId &blockId, struct ::stat *result) const {
+void DirBlob::statChild(const BlockId &blockId, struct FUSE_STAT *result) const {
   result->st_size = _getLstatSize(blockId);
   statChildWithSizeAlreadySet(blockId, result);
 }
 
-void DirBlob::statChildWithSizeAlreadySet(const BlockId &blockId, struct ::stat *result) const {
+void DirBlob::statChildWithSizeAlreadySet(const BlockId &blockId, struct FUSE_STAT *result) const {
   auto childOpt = GetChild(blockId);
   if (childOpt == boost::none) {
     throw fspp::fuse::FuseErrnoException(ENOENT);
@@ -152,7 +152,7 @@ void DirBlob::statChildWithSizeAlreadySet(const BlockId &blockId, struct ::stat 
   result->st_mtim = child.lastModificationTime();
   result->st_ctim = child.lastMetadataChangeTime();
   //TODO Move ceilDivision to general utils which can be used by cryfs as well
-  result->st_blocks = blobstore::onblocks::utils::ceilDivision(result->st_size, static_cast<off_t>(512));
+  result->st_blocks = blobstore::onblocks::utils::ceilDivision(result->st_size, static_cast<FUSE_OFF_T>(512));
   result->st_blksize = _fsBlobStore->virtualBlocksizeBytes();
 }
 

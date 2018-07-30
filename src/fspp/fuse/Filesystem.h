@@ -5,7 +5,7 @@
 #include <boost/filesystem.hpp>
 #include <cpp-utils/pointer/unique_ref.h>
 #include <sys/stat.h>
-#include <sys/statvfs.h>
+//#include <sys/statvfs.h>
 #include "../fs_interface/Dir.h"
 
 namespace fspp {
@@ -19,8 +19,8 @@ public:
   virtual int openFile(const boost::filesystem::path &path, int flags) = 0;
   virtual void flush(int descriptor) = 0;
   virtual void closeFile(int descriptor) = 0;
-  virtual void lstat(const boost::filesystem::path &path, struct ::stat *stbuf) = 0;
-  virtual void fstat(int descriptor, struct ::stat *stbuf) = 0;
+  virtual void lstat(const boost::filesystem::path &path, struct FUSE_STAT *stbuf) = 0;
+  virtual void fstat(int descriptor, struct FUSE_STAT *stbuf) = 0;
   //TODO Test chmod
   virtual void chmod(const boost::filesystem::path &path, mode_t mode) = 0;
   //TODO Test chown

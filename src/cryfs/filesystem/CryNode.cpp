@@ -157,14 +157,20 @@ const blockstore::BlockId &CryNode::blockId() const {
   return _blockId;
 }
 
-void CryNode::stat(struct ::stat *result) const {
+void CryNode::stat(struct FUSE_STAT *result) const {
   device()->callFsActionCallbacks();
   if(_parent == none) {
     //We are the root directory.
-	  //TODO What should we do?
+	//TODO What should we do?
+#if defined(_MSC_VER)
+	// TODO And what to do on Windows?
+	result->st_uid = 1000;
+    result->st_gid = 1000;
+#else
     result->st_uid = getuid();
     result->st_gid = getgid();
-	  result->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR;
+#endif
+	result->st_mode = S_IFDIR | S_IRUSR | S_IWUSR | S_IXUSR;
     result->st_size = fsblobstore::DirBlob::DIR_LSTAT_SIZE;
     //TODO If possible without performance loss, then for a directory, st_nlink should return number of dir entries (including "." and "..")
     result->st_nlink = 1;

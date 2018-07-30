@@ -49,11 +49,11 @@ public:
         return _base->RenameChild(blockId, newName, onOverwritten);
     }
 
-    void statChild(const blockstore::BlockId &blockId, struct ::stat *result) const {
+    void statChild(const blockstore::BlockId &blockId, struct FUSE_STAT *result) const {
         return _base->statChild(blockId, result);
     }
 
-    void statChildWithSizeAlreadySet(const blockstore::BlockId &blockId, struct ::stat *result) const {
+    void statChildWithSizeAlreadySet(const blockstore::BlockId &blockId, struct FUSE_STAT *result) const {
         return _base->statChildWithSizeAlreadySet(blockId, result);
     }
 

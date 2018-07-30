@@ -6,7 +6,7 @@
 #include <fspp/fs_interface/Dir.h>
 #include <cpp-utils/system/time.h>
 #include <sys/stat.h>
-#include <fuse.h>
+#include <fspp/fuse/params.h>
 
 namespace cryfs {
     namespace fsblobstore {
