@@ -55,6 +55,8 @@ set(SOURCES
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
+set(CURL_INCLUDE_DIR "C:\\ProgramData\\chocolatey\\lib\\curl\\tools\\curl-7.61.0-win64-mingw\\include")
+set(CURL_LIBRARY "C:\\ProgramData\\chocolatey\\lib\\curl\\tools\\curl-7.61.0-win64-mingw\\lib\\libcurl.dll.a")
 find_package(CURL REQUIRED)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CURL_LIBRARIES})
