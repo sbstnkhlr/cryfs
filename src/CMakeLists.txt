@@ -9,3 +9,6 @@ add_subdirectory(blobstore)
 add_subdirectory(cryfs)
 add_subdirectory(cryfs-cli)
 #add_subdirectory(stats)
+
+add_executable(test_executable test_executable.cpp)
+target_link_libraries(test_executable cpp-utils)
