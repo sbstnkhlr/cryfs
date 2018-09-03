@@ -21,7 +21,7 @@ private:
 };
 
 template<typename Property>
-struct ::statvfs FuseStatfsReturnTest<Property>::CallStatfsWithValue(Property value) {
+::statvfs FuseStatfsReturnTest<Property>::CallStatfsWithValue(Property value) {
   return CallStatfsWithImpl(SetPropertyImpl(value));
 }
 

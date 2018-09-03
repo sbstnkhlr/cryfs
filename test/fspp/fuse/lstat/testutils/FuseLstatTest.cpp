@@ -11,16 +11,16 @@ void FuseLstatTest::LstatPath(const std::string &path) {
 }
 
 int FuseLstatTest::LstatPathReturnError(const std::string &path) {
-  struct FUSE_STATFUSE_STAT dummy{};
+  struct FUSE_STAT dummy{};
   return LstatPathReturnError(path, &dummy);
 }
 
-void FuseLstatTest::LstatPath(const std::string &path, struct FUSE_STATFUSE_STAT *result) {
+void FuseLstatTest::LstatPath(const std::string &path, struct FUSE_STAT *result) {
   int error = LstatPathReturnError(path, result);
   EXPECT_EQ(0, error) << "lstat syscall failed. errno: " << error;
 }
 
-int FuseLstatTest::LstatPathReturnError(const std::string &path, struct FUSE_STATFUSE_STAT *result) {
+int FuseLstatTest::LstatPathReturnError(const std::string &path, struct FUSE_STAT *result) {
   auto fs = TestFS();
 
   auto realpath = fs->mountDir() / path;
@@ -32,27 +32,27 @@ int FuseLstatTest::LstatPathReturnError(const std::string &path, struct FUSE_STA
   }
 }
 
-struct FUSE_STATFUSE_STAT FuseLstatTest::CallFileLstatWithImpl(function<void(struct FUSE_STATFUSE_STAT*)> implementation) {
+struct FUSE_STAT FuseLstatTest::CallFileLstatWithImpl(function<void(struct FUSE_STAT*)> implementation) {
   return CallLstatWithModeAndImpl(S_IFREG, implementation);
 }
 
-struct FUSE_STATFUSE_STAT FuseLstatTest::CallDirLstatWithImpl(function<void(struct FUSE_STATFUSE_STAT*)> implementation) {
+struct FUSE_STAT FuseLstatTest::CallDirLstatWithImpl(function<void(struct FUSE_STAT*)> implementation) {
   return CallLstatWithModeAndImpl(S_IFDIR, implementation);
 }
 
-struct FUSE_STATFUSE_STAT FuseLstatTest::CallLstatWithImpl(function<void(struct FUSE_STATFUSE_STAT*)> implementation) {
+struct FUSE_STAT FuseLstatTest::CallLstatWithImpl(function<void(struct FUSE_STAT*)> implementation) {
   EXPECT_CALL(fsimpl, lstat(StrEq(FILENAME), _)).WillRepeatedly(Invoke([implementation](const char*, struct FUSE_STAT *stat) {
     implementation(stat);
   }));
 
-  struct FUSE_STATFUSE_STAT result{};
+  struct FUSE_STAT result{};
   LstatPath(FILENAME, &result);
 
   return result;
 }
 
-struct FUSE_STATFUSE_STAT FuseLstatTest::CallLstatWithModeAndImpl(mode_t mode, function<void(struct FUSE_STATFUSE_STAT*)> implementation) {
-  return CallLstatWithImpl([mode, implementation] (struct FUSE_STATFUSE_STAT *stat) {
+struct FUSE_STAT FuseLstatTest::CallLstatWithModeAndImpl(mode_t mode, function<void(struct FUSE_STAT*)> implementation) {
+  return CallLstatWithImpl([mode, implementation] (struct FUSE_STAT *stat) {
     stat->st_mode = mode;
     implementation(stat);
   });
