@@ -17,11 +17,11 @@ INSTANTIATE_TEST_CASE_P(FuseLstatReturnSizeTest, FuseLstatReturnSizeTest, Values
 ));
 
 TEST_P(FuseLstatReturnSizeTest, ReturnedFileSizeIsCorrect) {
-  struct FUSE_STAT result = CallDirLstatWithValue(GetParam());
+  struct stat result = CallDirLstatWithValue(GetParam());
   EXPECT_EQ(GetParam(), result.st_size);
 }
 
 TEST_P(FuseLstatReturnSizeTest, ReturnedDirSizeIsCorrect) {
-  struct FUSE_STAT result = CallDirLstatWithValue(GetParam());
+  struct stat result = CallDirLstatWithValue(GetParam());
   EXPECT_EQ(GetParam(), result.st_size);
 }

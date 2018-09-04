@@ -5,7 +5,7 @@ using ::testing::Values;
 
 class FuseLstatReturnModeTest: public FuseLstatTest, public WithParamInterface<mode_t> {
 public:
-  struct FUSE_STAT CallLstatWithValue(mode_t mode) {
+  struct stat CallLstatWithValue(mode_t mode) {
     return CallLstatWithImpl([mode] (struct FUSE_STAT *stat) {
       stat->st_mode = mode;
     });
@@ -19,6 +19,6 @@ INSTANTIATE_TEST_CASE_P(FuseLstatReturnModeTest, FuseLstatReturnModeTest, Values
 ));
 
 TEST_P(FuseLstatReturnModeTest, ReturnedModeIsCorrect) {
-  struct FUSE_STAT result = CallLstatWithValue(GetParam());
+  struct stat result = CallLstatWithValue(GetParam());
   EXPECT_EQ(GetParam(), result.st_mode);
 }

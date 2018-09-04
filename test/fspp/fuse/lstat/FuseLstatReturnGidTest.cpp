@@ -15,11 +15,11 @@ INSTANTIATE_TEST_CASE_P(FuseLstatReturnGidTest, FuseLstatReturnGidTest, Values(
 ));
 
 TEST_P(FuseLstatReturnGidTest, ReturnedFileGidIsCorrect) {
-  struct FUSE_STAT result = CallFileLstatWithValue(GetParam());
+  struct stat result = CallFileLstatWithValue(GetParam());
   EXPECT_EQ(GetParam(), result.st_gid);
 }
 
 TEST_P(FuseLstatReturnGidTest, ReturnedDirGidIsCorrect) {
-  struct FUSE_STAT result = CallDirLstatWithValue(GetParam());
+  struct stat result = CallDirLstatWithValue(GetParam());
   EXPECT_EQ(GetParam(), result.st_gid);
 }
