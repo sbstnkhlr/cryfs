@@ -21,6 +21,9 @@ void* UnswappableAllocator::allocate(size_t size) {
 void UnswappableAllocator::free(void* data, size_t size) {
 	const BOOL result = ::VirtualUnlock(addr_, len_);
     if (!result) {
+		// TODO This can happen because a different RAII object already unlocked the page.
+		//      Pages are quite large (4KB) and collisions likely, causing pages to be
+		//      unlocked too early. We should look for a different mechanism to lock pages.
         LOG(WARN, "Error calling VirtualUnlock. Errno: {}", GetLastError());
     }
 
